@@ -12,30 +12,14 @@ const Category = sequelize.define('Category', {
     allowNull: false,
     unique: true
   },
-  slug: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: true
-  },
+
+
   isActive: {
     type: DataTypes.BOOLEAN,
     defaultValue: true
   }
 });
 
-// Auto-generate slug from name
-// Category.beforeCreate((category) => {
-//   category.slug = category.name.toLowerCase().replace(/\s+/g, '-');
-// });
 
-// Category.beforeUpdate((category) => {
-//   if (category.changed('name')) {
-//     category.slug = category.name.toLowerCase().replace(/\s+/g, '-');
-//   }
-// });
 
 module.exports = Category;

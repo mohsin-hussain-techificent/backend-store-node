@@ -6,7 +6,7 @@ const rateLimit = require('express-rate-limit');
 
 const authRoutes = require('./routes/auth');
 const categoryRoutes = require('./routes/categories');
-// const productRoutes = require('./routes/products');
+const productRoutes = require('./routes/products');
 
 
 const app = express();
@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
-// app.use('/api/products', productRoutes);
+app.use('/api/products', productRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

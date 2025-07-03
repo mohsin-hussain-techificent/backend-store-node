@@ -19,12 +19,11 @@ const Product = sequelize.define('Product', {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false
   },
-  originalPrice: {
-    type: DataTypes.DECIMAL(10, 2),
-    allowNull: true
-  },
+
   imageUrl: {
-    type: DataTypes.STRING,
+    // type: DataTypes.STRING,
+    type: DataTypes.TEXT('long'),
+
     allowNull: false
   },
   externalUrl: {
@@ -45,11 +44,8 @@ const Product = sequelize.define('Product', {
   isActive: {
     type: DataTypes.BOOLEAN,
     defaultValue: true
-  },
-  sortOrder: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0
   }
+
 });
 
 module.exports = Product;
