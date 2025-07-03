@@ -27,13 +27,13 @@ const getCategories = async (req, res) => {
 
 const createCategory = async (req, res) => {
   try {
-    const { name, description } = req.body;
+    const { name } = req.body;
 
   
 
     const category = await Category.create({
-      name,
-      description
+      name
+      
     });
 
     res.status(201).json({

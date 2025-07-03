@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator');
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
 
-  console.log("");
+
   
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -27,17 +27,16 @@ const validateProduct = [
     .isFloat({ min: 0 })
     .withMessage('Price must be a positive number'),
   
-  body('originalPrice')
-    .optional()
-    .isFloat({ min: 0 })
-    .withMessage('Original price must be a positive number'),
+
   
   body('imageUrl')
     .trim()
     .notEmpty()
-    .withMessage('Image URL is required')
-    .isURL()
-    .withMessage('Image URL must be a valid URL'),
+    .withMessage('Image Data is required')
+    .matches(/^data:image\/[a-zA-Z]+;base64,([A-Za-z0-9+/=]+)$/)
+    .withMessage('Image data must be a valid base64 string'),
+    // .isURL()
+    // .withMessage('Image URL must be a valid URL'),
   
   body('externalUrl')
     .trim()
@@ -58,10 +57,7 @@ const validateProduct = [
     .isLength({ max: 2000 })
     .withMessage('Description must not exceed 2000 characters'),
   
-  body('sortOrder')
-    .optional()
-    .isInt({ min: 0 })
-    .withMessage('Sort order must be a non-negative integer'),
+
   
   handleValidationErrors
 ];
@@ -74,11 +70,7 @@ const validateCategory = [
     .isLength({ min: 2, max: 100 })
     .withMessage('Category name must be between 2 and 100 characters'),
   
-  body('description')
-    .optional()
-    .trim()
-    .isLength({ max: 500 })
-    .withMessage('Description must not exceed 500 characters'),
+
   
   handleValidationErrors
 ];

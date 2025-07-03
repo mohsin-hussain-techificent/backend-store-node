@@ -28,7 +28,7 @@ const getProducts = async (req, res) => {
       include: [{
         model: Category,
         as: 'category',
-        attributes: ['id', 'name', 'slug']
+        attributes: ['id', 'name']
       }],
       order: [['sortOrder', 'ASC'], ['createdAt', 'DESC']],
       limit: parseInt(limit),
@@ -64,7 +64,7 @@ const getProduct = async (req, res) => {
       include: [{
         model: Category,
         as: 'category',
-        attributes: ['id', 'name', 'slug']
+        attributes: ['id', 'name']
       }]
     });
 
@@ -94,11 +94,11 @@ const createProduct = async (req, res) => {
       name,
       description,
       price,
-      originalPrice,
+   
       imageUrl,
       externalUrl,
       categoryId,
-      sortOrder
+      
     } = req.body;
 
     // Validate category exists
@@ -114,11 +114,11 @@ const createProduct = async (req, res) => {
       name,
       description,
       price,
-      originalPrice,
+      
       imageUrl,
       externalUrl,
       categoryId,
-      sortOrder: sortOrder || 0
+    
     });
 
     // Fetch the created product with category info
@@ -126,7 +126,7 @@ const createProduct = async (req, res) => {
       include: [{
         model: Category,
         as: 'category',
-        attributes: ['id', 'name', 'slug']
+        attributes: ['id', 'name']
       }]
     });
 
@@ -161,12 +161,12 @@ const updateProduct = async (req, res) => {
       name,
       description,
       price,
-      originalPrice,
+      
       imageUrl,
       externalUrl,
       categoryId,
       isActive,
-      sortOrder
+
     } = req.body;
 
     const product = await Product.findByPk(id);
@@ -193,12 +193,10 @@ const updateProduct = async (req, res) => {
       name: name || product.name,
       description: description !== undefined ? description : product.description,
       price: price || product.price,
-      originalPrice: originalPrice !== undefined ? originalPrice : product.originalPrice,
       imageUrl: imageUrl || product.imageUrl,
       externalUrl: externalUrl || product.externalUrl,
       categoryId: categoryId || product.categoryId,
       isActive: isActive !== undefined ? isActive : product.isActive,
-      sortOrder: sortOrder !== undefined ? sortOrder : product.sortOrder
     });
 
     // Fetch updated product with category info
@@ -206,7 +204,7 @@ const updateProduct = async (req, res) => {
       include: [{
         model: Category,
         as: 'category',
-        attributes: ['id', 'name', 'slug']
+        attributes: ['id', 'name']
       }]
     });
 
