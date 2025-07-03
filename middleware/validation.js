@@ -33,10 +33,10 @@ const validateProduct = [
     .trim()
     .notEmpty()
     .withMessage('Image Data is required')
-    .matches(/^data:image\/[a-zA-Z]+;base64,([A-Za-z0-9+/=]+)$/)
-    .withMessage('Image data must be a valid base64 string'),
-    // .isURL()
-    // .withMessage('Image URL must be a valid URL'),
+    // .matches(/^data:image\/[a-zA-Z]+;base64,([A-Za-z0-9+/=]+)$/)
+    // .withMessage('Image data must be a valid base64 string'),
+    .isURL()
+    .withMessage('Image URL must be a valid URL'),
   
   body('externalUrl')
     .trim()
