@@ -22,12 +22,12 @@ const Product = sequelize.define('Product', {
 
   imageUrl: {
     // type: DataTypes.STRING,
-    type: DataTypes.TEXT('long'),
+    type: DataTypes.TEXT,
 
     allowNull: false
   },
   externalUrl: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
     validate: {
       isUrl: true
