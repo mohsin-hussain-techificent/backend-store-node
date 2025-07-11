@@ -38,7 +38,40 @@ const getProductDetail = async (req, res) => {
       image = $('img[data-aut-id="itemImage"]').first().attr('src') ||
               $('img').first().attr('src');
     } else {
-      return res.status(400).json({ error: "Unsupported site" });
+      // Try to extract price and image generically for unsupported platforms
+      try {
+        // Try to find a price-like value (e.g., $123, Rs. 456, etc.)
+        let price = '';
+        let image = '';
+        // Try common price patterns
+        const pricePatterns = [
+          /(Rs\.?|PKR|\$|USD|₹|€|£)\s*([\d,.]+)/i,
+          /([\d,.]+)\s*(Rs\.?|PKR|\$|USD|₹|€|£)/i
+        ];
+        let priceText = '';
+        for (const pattern of pricePatterns) {
+          const match = $.html().match(pattern);
+          if (match) {
+            priceText = match[0];
+            break;
+          }
+        }
+        price = priceText;
+        // Try to find the first image
+        image = $('img').first().attr('src') || '';
+        if (!price && !image) {
+          return res.status(500).json({ error: "Scraping failed", details: "No price or image found" });
+        }
+        // Normalize image URL if needed
+        if (image && image.startsWith("//")) {
+          image = "https:" + image;
+        } else if (image && image.startsWith("/")) {
+          image = `https://${hostname}${image}`;
+        }
+        return res.json({ price, image });
+      } catch (e) {
+        return res.status(500).json({ error: "Scraping failed", details: e.message });
+      }
     }
 
     res.json({ price, image });
