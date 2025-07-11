@@ -5,21 +5,21 @@ const { Op } = require('sequelize');
 const getProducts = async (req, res) => {
   try {
     const { categoryId, search, page = 1, limit = 20, isActive } = req.query;
-    
+
     const offset = (page - 1) * limit;
     const whereClause = {};
-    
+
     if (categoryId) {
       whereClause.categoryId = categoryId;
     }
-    
-    if (search) {
+
+    if (search && search.trim() !== '') {
       whereClause.name = {
-        [Op.iLike]: `%${search}%`
+        [Op.iLike]: `%${search.trim()}%`
       };
     }
-    
-    if (isActive !== undefined) {
+
+    if (isActive === 'true' || isActive === 'false') {
       whereClause.isActive = isActive === 'true';
     }
 
@@ -30,7 +30,7 @@ const getProducts = async (req, res) => {
         as: 'category',
         attributes: ['id', 'name']
       }],
-      order:  ['createdAt'],
+      order: [['createdAt', 'DESC']],
       limit: parseInt(limit),
       offset: parseInt(offset)
     });
@@ -94,11 +94,11 @@ const createProduct = async (req, res) => {
       name,
       description,
       price,
-   
+
       imageUrl,
       externalUrl,
       categoryId,
-      
+
     } = req.body;
 
     // Validate category exists
@@ -114,11 +114,11 @@ const createProduct = async (req, res) => {
       name,
       description,
       price,
-      
+
       imageUrl,
       externalUrl,
       categoryId,
-    
+
     });
 
     // Fetch the created product with category info
@@ -161,7 +161,7 @@ const updateProduct = async (req, res) => {
       name,
       description,
       price,
-      
+
       imageUrl,
       externalUrl,
       categoryId,
