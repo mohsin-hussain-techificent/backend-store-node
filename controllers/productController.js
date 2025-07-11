@@ -30,7 +30,7 @@ const getProducts = async (req, res) => {
         as: 'category',
         attributes: ['id', 'name']
       }],
-      order: [['sortOrder', 'ASC'], ['createdAt', 'DESC']],
+      order:  ['createdAt'],
       limit: parseInt(limit),
       offset: parseInt(offset)
     });
@@ -262,7 +262,7 @@ const deleteProduct = async (req, res) => {
 
 const bulkUpdateProducts = async (req, res) => {
   try {
-    const { products } = req.body; // Array of { id, sortOrder, isActive, etc. }
+    const { products } = req.body; 
 
     if (!Array.isArray(products)) {
       return res.status(400).json({
